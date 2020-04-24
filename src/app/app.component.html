@@ -1,0 +1,159 @@
+<body>
+  <header id="header">
+    <div class="container">
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#add">Add New</a></li>
+          <li><a href="#view">View List</a></li>
+        </ul>
+      </nav>
+      <nav class="nav social-nav pull-right d-none d-lg-inline">
+        <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
+            class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="first" id="home">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <a class="first-brand" href="index.html" title="Home">
+            <h1>Pharmacy </h1>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <h1>
+            Feel good with us!
+          </h1>
+
+          <p class="firstTag">
+            Spend on the right place for the right medicines. The trustworthy and reliable drug store.
+          </p>
+          <a class="btn btn-full" href="#add">Add new</a>
+          <a class="btn btn-full" href="#view">View List</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="add" id="add">
+
+    <div class="container text-center">
+      <h2 *ngIf="add">
+        Add New Item
+      </h2>
+      <h2 *ngIf="edit">
+        Edit the following
+      </h2>
+
+      <h3>
+        Fill the following form to add new entry to the existing list.
+      </h3>
+
+      <form [formGroup]="pharmaForm">
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="inputName">First Name</label>
+            <input type="text" class="form-control" id="inputFirstName" placeholder="Enter your First Name"
+              formControlName="firstName">
+          </div>
+          <div class="col form-group">
+            <label for="inputName">Last Name</label>
+            <input type="text" class="form-control" id="inputLastName" placeholder="Enter your Last Name"
+              formControlName="lastName">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="inputEmail">Email Id</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="xyz@domain.com"
+              formControlName="email">
+          </div>
+          <div class="col form-group">
+            <label for="example-date-input">Date Of Birth</label>
+            <input class="form-control" type="date" formControlName="dateOfBirth" id="example-date-input">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="inputCity">Medicine</label>
+            <input type="text" class="form-control" id="medicine" formControlName="medicine"
+              placeholder="Enter medicine Name">
+          </div>
+          <div class="col form-group">
+            <label for="inputState">Country</label>
+            <select id="inputState" class="form-control" formControlName="state">
+              <option selected [value]="0">---Select your country---</option>
+              <option *ngFor="let country of countries" [value]="country.text">
+                {{country.text}} </option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+          (click)="onSubmit()">Submit</button>
+        <button type="submit" class="btn btn-primary" (click)="clear()">Clear</button>
+      </form>
+      <!-- The Modal -->
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              Data Submitted Successfully!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view">
+    <div class="container text-center">
+      <h2>
+        List Of Data Available
+      </h2>
+      <div class="col-12">
+        <div *ngIf="pharmaList.length==0 || pharmaList.length==undefined" class="noResult">
+          <h3>No Data Available at this moment</h3>
+          <a class="btn btn-full" href="#add">Add new</a>
+        </div>
+        <table *ngIf="pharmaList.length>0" id="table" class="contentDiv table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" data-field="name">Name</th>
+              <th scope="col" data-field="email">Email</th>
+              <th scope="col" data-field="dateOfBirth" data-sortable="true">Age(in years)</th>
+              <th scope="col" data-field="medicine">Medicine</th>
+              <th scope="col" data-field="state">Country</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of pharmaList; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ data.firstName }} {{ data.lastName }}</td>
+              <td>{{ data.email }}</td>
+              <td>{{ data.age}}</td>
+              <td>{{ data.medicine }}</td>
+              <td>{{ data.state}}</td>
+              <td><a href="#add" (click)=onEdit(data)><i class="fa fa-pencil-square-o"></i></a></td>
+              <td><a href="#view" (click)=onDelete(data)><i class="fa fa-trash-o"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</body>
